@@ -1,0 +1,43 @@
+:root {
+  /* palette - warm cream / deep navy / coral accent */
+  --bg: #0b1020;
+  --bg-2: #11172c;
+  --panel: #161d36;
+  --panel-2: #1c2440;
+  --line: #263055;
+  --text: #f4ead5;
+  --text-dim: #aab1cb;
+  --text-mute: #6b7497;
+  --accent: #ff7a59;       /* electric coral */
+  --accent-2: #c8ff5e;     /* chartreuse */
+  --accent-3: #6cd0ff;     /* sky */
+  --good: #6cd089;
+  --warn: #ffd166;
+
+  /* fonts */
+  --font-serif: 'Fraunces', Georgia, serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+  --font-sans: 'Inter', system-ui, sans-serif;
+
+  /* spacing */
+  --r-sm: 8px;
+  --r-md: 14px;
+  --r-lg: 22px;
+
+  --shadow-1: 0 1px 0 rgba(255,255,255,0.04) inset, 0 10px 30px rgba(0,0,0,0.35);
+  --shadow-2: 0 1px 0 rgba(255,255,255,0.06) inset, 0 18px 50px rgba(0,0,0,0.45);
+}
+
+[data-theme='hacker'] {
+  --bg: #000600;
+  --bg-2: #001100;
+  --panel: #021a02;
+  --panel-2: #042704;
+  --line: #0b4d0b;
+  --text: #b8ffb8;
+  --text-dim: #6fcf6f;
+  --text-mute: #3a8f3a;
+  --accent: #00ff7a;
+  --accent-2: #c8ff5e;
+  --accent-3: #6cffd0;
+}
