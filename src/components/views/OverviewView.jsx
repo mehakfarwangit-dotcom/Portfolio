@@ -13,7 +13,7 @@ export default function OverviewView() {
     >
       <div className="hero__photo">
         <motion.img
-          src="/mehak-presenting.png"
+          src={profile.presentingPhoto}
           alt="Mehak Farwan"
           initial={{ scale: 1.06 }}
           animate={{ scale: 1 }}

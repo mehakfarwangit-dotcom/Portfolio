@@ -1,10 +1,16 @@
+// Vite injects BASE_URL at build time so assets work under /Portfolio/ on GH Pages
+const BASE = import.meta.env.BASE_URL
+
+export const asset = (p) => `${BASE}${p.replace(/^\//, '')}`
+
 export const profile = {
   name: 'Mehak Farwan',
   role: 'Aspiring Data Analyst | Business Analyst',
   email: 'mehakshan006@gmail.com',
   phone: '+91 8123072378',
   location: 'Kakkanad, Kerala, India',
-  photo: '/mehak.png',
+  photo: asset('mehak.png'),
+  presentingPhoto: asset('mehak-presenting.png'),
   bio: 'Insightful decisions begin with well-analyzed data. I bring a strong analytical mindset and a structured problem-solving approach to Business and Data Analysis, focused on translating raw data into actionable insights that drive informed decision-making and measurable business performance.',
   tagline: 'data → decisions → impact'
 }
