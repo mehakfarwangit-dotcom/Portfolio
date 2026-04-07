@@ -158,3 +158,49 @@ export function speak(text, { onEnd } = {}) {
 export function cancelSpeech() {
   if ('speechSynthesis' in window) window.speechSynthesis.cancel()
 }
+
+// ---------- Woosh transition sound ----------
+// Short (~220ms) filtered-noise swoosh used when changing sections.
+export function woosh() {
+  const c = ensureCtx()
+  if (!c) return
+  if (c.state === 'suspended') c.resume().catch(() => {})
+  const now = c.currentTime
+
+  // Generate a short noise buffer with a quick fade-out tail
+  const dur = 0.22
+  const sr = c.sampleRate
+  const len = Math.floor(sr * dur)
+  const buf = c.createBuffer(1, len, sr)
+  const data = buf.getChannelData(0)
+  for (let i = 0; i < len; i++) {
+    const t = i / len
+    // shaped noise: ramp up quickly, decay fast
+    const env = Math.pow(1 - t, 2)
+    data[i] = (Math.random() * 2 - 1) * env
+  }
+
+  const src = c.createBufferSource()
+  src.buffer = buf
+
+  // Band-pass filter that sweeps upward = "woosh" character
+  const bp = c.createBiquadFilter()
+  bp.type = 'bandpass'
+  bp.Q.value = 1.2
+  bp.frequency.setValueAtTime(600, now)
+  bp.frequency.exponentialRampToValueAtTime(3200, now + 0.18)
+
+  // Gentle high-pass to remove rumble
+  const hp = c.createBiquadFilter()
+  hp.type = 'highpass'
+  hp.frequency.value = 200
+
+  const gain = c.createGain()
+  gain.gain.setValueAtTime(0, now)
+  gain.gain.linearRampToValueAtTime(0.22, now + 0.025)
+  gain.gain.exponentialRampToValueAtTime(0.0001, now + dur)
+
+  src.connect(hp).connect(bp).connect(gain).connect(c.destination)
+  src.start(now)
+  src.stop(now + dur + 0.02)
+}

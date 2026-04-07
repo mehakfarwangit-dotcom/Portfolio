@@ -49,7 +49,7 @@ export default function Sidebar({ active, onChange, story, onToggleStory, mobile
 
       <div className="sidebar__foot">
         <button className={'story-btn ' + (story ? 'on' : '')} onClick={onToggleStory}>
-          {story ? '■  stop story mode' : '▶  play her story'}
+          {story ? '■  stop story mode' : '▶  play my story'}
         </button>
         <div style={{ marginTop: 6 }}>narrated · with music</div>
         <div>↑↑↓↓←→←→ B A · try it</div>

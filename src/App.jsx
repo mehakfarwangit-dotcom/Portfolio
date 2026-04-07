@@ -12,7 +12,7 @@ import LanguagesView from './components/views/LanguagesView'
 import ContactView from './components/views/ContactView'
 import NarrationOverlay from './components/NarrationOverlay'
 import useKonami from './hooks/useKonami'
-import { startAmbient, stopAmbient, speak, cancelSpeech, primeSpeech } from './lib/storyEngine'
+import { startAmbient, stopAmbient, speak, cancelSpeech, primeSpeech, woosh } from './lib/storyEngine'
 import { narration } from './data/mehak'
 
 const ORDER = ['overview','skills','projects','experience','education','languages','contact']
@@ -66,6 +66,11 @@ export default function App() {
     const playSection = (id) => {
       if (cancelled) return
       setSection(id)
+      woosh()
+      // Scroll the main canvas back to the top so the new section is visible
+      requestAnimationFrame(() => {
+        document.querySelector('.main')?.scrollTo({ top: 0, behavior: 'smooth' })
+      })
       const text = narration[id] || ''
       setCaption(text)
       speak(text)
@@ -111,8 +116,13 @@ export default function App() {
 
   const handleSectionChange = (id) => {
     if (story) setStory(false)
+    if (id !== section) woosh()
     setSection(id)
     setMobileNavOpen(false)
+    requestAnimationFrame(() => {
+      document.querySelector('.main')?.scrollTo({ top: 0, behavior: 'smooth' })
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    })
   }
 
   return (
@@ -127,7 +137,10 @@ export default function App() {
           active={section}
           onChange={handleSectionChange}
           story={story}
-          onToggleStory={() => setStory(s => !s)}
+          onToggleStory={() => {
+            setStory(s => !s)
+            setMobileNavOpen(false)
+          }}
           mobileOpen={mobileNavOpen}
           onCloseMobile={() => setMobileNavOpen(false)}
         />

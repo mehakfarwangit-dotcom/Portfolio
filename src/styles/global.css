@@ -353,6 +353,41 @@ button { font: inherit; cursor: pointer; }
 .hero__metaVal.link { color: var(--accent); transition: color .15s; }
 .hero__metaVal.link:hover { color: var(--accent-2); text-decoration: underline; }
 
+/* Copyable contact rows */
+.hero__contact { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.hero__contactRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+.hero__contactRow .hero__metaVal {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.hero__copyBtn {
+  flex-shrink: 0;
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--text-mute);
+  padding: 3px 9px;
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: .04em;
+  transition: all .15s ease;
+}
+.hero__copyBtn:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+.hero__copyBtn.copied {
+  background: var(--good);
+  color: #0b1020;
+  border-color: var(--good);
+}
+
 /* bottom row inside the right column: KPIs + radar */
 .hero__bottom {
   display: grid;
@@ -669,10 +704,12 @@ button { font: inherit; cursor: pointer; }
 /* ----------------- Narration overlay (story mode) ----------------- */
 .narration {
   position: fixed;
-  bottom: 20px; left: 50%;
+  left: 50%;
+  bottom: calc(20px + env(safe-area-inset-bottom, 0px));
   transform: translateX(-50%);
   width: min(720px, calc(100vw - 32px));
-  z-index: 40;
+  z-index: 70;
+  pointer-events: auto;
 }
 .narration__inner {
   background: linear-gradient(180deg, rgba(11,16,32,0.92), rgba(22,29,54,0.96));
@@ -825,11 +862,21 @@ button { font: inherit; cursor: pointer; }
   }
   .actionShot__title { max-width: 100%; }
 
-  .narration { bottom: 12px; }
-  .narration__inner { padding: 14px 16px 12px; border-radius: 14px; }
-  .narration__text { font-size: 14px; min-height: 64px; }
-  .narration__head { font-size: 9px; gap: 8px; }
+  .narration {
+    left: 12px;
+    right: 12px;
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    width: auto;
+    max-width: none;
+    transform: none;
+  }
+  .narration__inner { padding: 12px 14px 10px; border-radius: 14px; }
+  .narration__text { font-size: 13px; line-height: 1.45; min-height: 56px; }
+  .narration__head { font-size: 9px; gap: 8px; margin-bottom: 8px; }
   .narration__step { display: none; }
+  .narration__bar { margin-top: 8px; }
+  /* leave room at the bottom of the page for the overlay */
+  .main { padding-bottom: 200px; }
 }
 
 /* Very small phones */

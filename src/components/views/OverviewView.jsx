@@ -1,7 +1,36 @@
+import { useState } from 'react'
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, ResponsiveContainer } from 'recharts'
 import { motion } from 'framer-motion'
 import KpiCard from '../KpiCard'
 import { kpis, profile, radarData } from '../../data/mehak'
+
+function CopyableContact({ label, value, href }) {
+  const [copied, setCopied] = useState(false)
+  const copy = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    navigator.clipboard?.writeText(value)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 1400)
+  }
+  return (
+    <div className="hero__contact">
+      <span className="hero__metaKey">{label}</span>
+      <div className="hero__contactRow">
+        <a className="hero__metaVal link" href={href}>{value}</a>
+        <button
+          type="button"
+          className={'hero__copyBtn ' + (copied ? 'copied' : '')}
+          onClick={copy}
+          aria-label={`Copy ${label}`}
+          title={`Copy ${label}`}
+        >
+          {copied ? '✓ copied' : 'copy'}
+        </button>
+      </div>
+    </div>
+  )
+}
 
 export default function OverviewView() {
   return (
@@ -44,14 +73,16 @@ export default function OverviewView() {
             <span className="hero__metaKey">based in</span>
             <span className="hero__metaVal">{profile.location}</span>
           </div>
-          <div>
-            <span className="hero__metaKey">email</span>
-            <a className="hero__metaVal link" href={`mailto:${profile.email}`}>{profile.email}</a>
-          </div>
-          <div>
-            <span className="hero__metaKey">phone</span>
-            <a className="hero__metaVal link" href={`tel:${profile.phone.replace(/\s/g,'')}`}>{profile.phone}</a>
-          </div>
+          <CopyableContact
+            label="email"
+            value={profile.email}
+            href={`mailto:${profile.email}`}
+          />
+          <CopyableContact
+            label="phone"
+            value={profile.phone}
+            href={`tel:${profile.phone.replace(/\s/g,'')}`}
+          />
         </div>
 
         <div className="hero__bottom">
